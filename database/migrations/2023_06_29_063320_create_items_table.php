@@ -17,6 +17,12 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
 
+            $table->unsignedBigInteger('user_id');
+
+            $table->index('user_id', 'item_user_idx');
+
+            $table->foreign('user_id', 'item_user_fk')->on('users')->references('id');
+
             //$table->softDeletes();
         });
     }

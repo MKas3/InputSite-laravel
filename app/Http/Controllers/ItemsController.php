@@ -2,33 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Models\Item;
+use Auth;
 
 class ItemsController extends Controller
 {
-    public function index() {
-        return redirect()->route('item.show', 0);
-    }
-
-    public function show($sorting) {
-        switch ($sorting) {
-            case 0:
-                $items = Item::orderBy('data_id')->get();
-                break;
-            case 1:
-                $items = Item::orderByDesc('data_id')->get();
-                break;
-            case 2:
-                $items = Item::orderBy('name')->get();
-                break;
-            case 3: 
-                $items = Item::orderByDesc('name')->get();
-                break;
-            default:
-                abort(404);
-        }
-        return view('items', compact('items') + ['sorting' => $sorting]);
+    public function index(Request $request) {
+        $sort_field = $request->input('sort_field', 'data_id');
+        $sort_order = $request->input('sort_order', 'asc');
+        $items = Item::where('user_id', Auth::user()['id'])->orderBy($sort_field, $sort_order)->get();
+        return view('items', compact('items') + ['sort_field' => $sort_field, 'sort_order' => $sort_order]);
     }
 
     public function store(Request $request) {
@@ -37,25 +22,31 @@ class ItemsController extends Controller
             'name' => 'string',
         ]);
         $data['name'] = trim($data['name']);
-        $data['data_id'] = Item::max('data_id') + 1 ;
+        $data['user_id'] = Auth::user()['id'];
+        $data['data_id'] = Item::where('user_id', $data['user_id'])->max('data_id') + 1;
         Item::create($data);
-        $sorting = $request->input('sorting');
-        return redirect()->route('item.show', $sorting);
+        $sort_field = $request->input('sort_field', 'data_id');
+        $sort_order = $request->input('sort_order', 'asc');
+        return redirect()->route('item.index', ['sort_field' => $sort_field, 'sort_order' => $sort_order]);
     }
 
     public function update(Request $request, Item $item) {
+        if (Gate::denies('update-item', $item)) return;
         $data = request()->validate([
             'data_id' => 'numeric',
             'name' => 'string',
         ]);
         $item->update($data);
-        $sorting = request()->input('sorting');
-        return redirect()->route('item.show', $sorting);
+        $sort_field = $request->input('sort_field', 'data_id');
+        $sort_order = $request->input('sort_order', 'asc');
+        return redirect()->route('item.index', ['sort_field' => $sort_field, 'sort_order' => $sort_order]);
     }
 
     public function destroy(Request $request, Item $item) {
+        if (Gate::denies('update-item', $item)) return;
         $item->delete();
-        $sorting = $request->input('sorting');
-        return redirect()->route('item.show', $sorting);
+        $sort_field = $request->input('sort_field', 'data_id');
+        $sort_order = $request->input('sort_order', 'asc');
+        return redirect()->route('item.index', ['sort_field' => $sort_field, 'sort_order' => $sort_order]);
     }
 }

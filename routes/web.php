@@ -13,12 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'ItemsController@index')->name('item.index');
 
-Route::get('/{sorting}', 'ItemsController@show')->name('item.show');
 
-Route::post('/', 'ItemsController@store')->name('item.store');
+Auth::routes();
 
-Route::patch('/{item}', 'ItemsController@update')->name('item.update');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/', 'ItemsController@index')->name('item.index');
 
-Route::delete('/{item}', 'ItemsController@destroy')->name('item.delete');
+    Route::post('/', 'ItemsController@store')->name('item.store');
+
+    Route::patch('/{item}', 'ItemsController@update')->name('item.update');
+
+    Route::delete('/{item}', 'ItemsController@destroy')->name('item.delete');
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

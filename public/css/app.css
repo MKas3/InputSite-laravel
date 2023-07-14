@@ -1,24 +1,6 @@
-body {
-    background-color: #010307;
-    color: #dde8f1;
-}
-
-li:hover {
-    color: #74797e;
-    transition: 0.15s;
-}
-
-li label,
-li input {
-    background-color: #010307;
-}
-
-li input {
-    color: #dde8f1;
-}
-
+li:hover,
 .form-check:hover {
-    color: #74797e;
+    color: var(--bs-light);
     transition: 0.15s;
 }
 
@@ -30,10 +12,10 @@ li input {
     display: contents;
 }
 
-.main-ol {
-    list-style: none;
+.main-ol li .hidden {
+    display: none;
 }
 
-[v-cloak] {
-    display: none;
+.main-ol {
+    list-style: none;
 }
