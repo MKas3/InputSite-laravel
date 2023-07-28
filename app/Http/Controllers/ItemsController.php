@@ -13,7 +13,7 @@ class ItemsController extends Controller
         $sort_field = $request->input('sort_field', 'data_id');
         $sort_order = $request->input('sort_order', 'asc');
         $items = Item::where('user_id', Auth::user()['id'])->orderBy($sort_field, $sort_order)->get();
-        return view('items', compact('items') + ['sort_field' => $sort_field, 'sort_order' => $sort_order]);
+        return view('index', compact('items') + ['sort_field' => $sort_field, 'sort_order' => $sort_order]);
     }
 
     public function store(Request $request) {

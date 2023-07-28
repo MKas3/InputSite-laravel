@@ -9,6 +9,9 @@
         <title>Input site</title>
     </head>
     <body>
+        @php
+            $user = Auth::user();
+        @endphp
         <header class="bg-dark-subtle navbar navbar-expand-lg bd-navbar sticky-top">
             <nav class="container bd-gutter flex-wrap flex-lg-nowrap">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -19,22 +22,28 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
                     <!-- Right Side Of Navbar -->
                     <div class="navbar-nav ms-auto">
                         <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ Auth::user()->name }}
+                            <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-end" type="button" id="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img class="profile-picture rounded mx-2"
+                                    @if ($user->image)
+                                        src="{{ Storage::url($user->image) }}" alt="User Image"
+                                    @else
+                                        src="{{ Storage::url('uploads/none.jpg') }}"
+                                    @endif
+                                >
+                                {{ $user->email }}
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" type="button" href="{{ route('user.index') }}">
+                                    Profile
+                                </a></li>
+
                                 <li><a class="dropdown-item" type="button" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
-                                                    document.getElementById('logout-form').submit();">
+                                            document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a></li>
 
@@ -153,7 +162,7 @@
             </ol>
         </div>
 
-        <script defer src="{{ asset('js/app.js') }}"></script>
+        <script defer src="{{ asset('js/index.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -19,3 +19,12 @@ li:hover,
 .main-ol {
     list-style: none;
 }
+
+.profile-picture {
+    width: 2.5vw;
+    height: 2.5vw;
+}
+
+.hide {
+    display: none;
+}

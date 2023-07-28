@@ -25,6 +25,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::patch('/{item}', 'ItemsController@update')->name('item.update');
 
     Route::delete('/{item}', 'ItemsController@destroy')->name('item.delete');
+
+    Route::get('/profile', 'UsersController@index')->name('user.index');
+ 
+    Route::post('/profile', 'UsersController@store')->name('user.store');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
