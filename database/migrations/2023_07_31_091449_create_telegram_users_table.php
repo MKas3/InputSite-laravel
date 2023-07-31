@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('username');
             $table->string('token');
 
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->index('user_id', 'user_idx');
+            $table->foreign('user_id', 'user_fk')->on('users')->references('id');
+
             $table->timestamps();
         });
     }
