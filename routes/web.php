@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/test', 'TelegramBotController@index');
+
+Route::post('6348671637:AAEminvDP9BKM0Xh7uAOAUKKHBLjegVwH2w/handleWebhook', 'TelegramBotController@handle');
+
+Route::get('/setWebhook', 'TelegramBotController@setWebhook');
+
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/', 'ItemsController@index')->name('item.index');
 
@@ -29,6 +35,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/profile', 'UsersController@index')->name('user.index');
  
     Route::post('/profile', 'UsersController@store')->name('user.store');
+
+    Route::post('/add-token', 'TelegramBotController@tryAddToken');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

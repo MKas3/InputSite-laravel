@@ -4,6 +4,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
         <title>User profile {{ Auth::user()->name }}</title>
@@ -54,7 +56,7 @@
             </nav>
         </header>
         <div class="container my-5">
-            <div class="container position-relative w-25 align-items-center ratio ratio-1x1">
+            <div class="container w-25 align-items-center ratio ratio-1x1">
                 <img class="img-fluid rounded"
                     @if ($user->image)
                         src="{{ Storage::url($user->image) }}" alt="User Image"
@@ -70,6 +72,24 @@
                     <input class="picture-input hide" type="file" accept="image/*" name="image">
                 </form>
             </div>
+            <form class="container input-group align-items-center w-75 my-4">
+                <a href="https://t.me/InputSiteBot" class="btn btn-secondary m-4 rounded-pill">Telegram Bot</a>
+                <input type="text" placeholder="Telegram token" autocomplete="off"
+                    @if ($user->telegram)
+                        class="rounded-start form-control is-valid"
+                        value="{{ $user->telegram }}"
+                    @else
+                        class="rounded-start form-control is-valid"
+                    @endif
+                >
+                <button class="btn btn-primary rounded-end" type="submit">Accept</button>
+                <div
+                    id="validationServerUsernameFeedback"
+                    class="invalid-feedback"
+                >
+                    Please enter the correct token.
+                </div>
+            </form>
         </div>
     
         <script defer src="{{ asset('js/profile.js') }}"></script>

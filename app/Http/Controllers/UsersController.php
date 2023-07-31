@@ -24,7 +24,7 @@ class UsersController extends Controller
             'public/uploads', request()->user()->id.'.jpg'
         );
     
-        auth()->user()->update(['image' => $imagePath]);
+        Auth::user()->update(['image' => $imagePath]);
     
         return redirect('/profile')->with('success');
     }

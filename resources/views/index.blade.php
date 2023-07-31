@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
         <title>Input site</title>
@@ -60,13 +61,13 @@
             @csrf
             <input
                 type="text"
-                class="form-control"
+                class="form-control rounded-start"
                 placeholder="Enter a list item"
                 name="name"
             />
             <button
                 type="submit"
-                class="btn btn-primary"
+                class="btn btn-primary rounded-end"
             >
                 Add
             </button>
@@ -140,7 +141,7 @@
                             @csrf
                             @method('patch')
                             <input
-                                class="w-50 itemInput"
+                                class="w-50 itemInput rounded"
                                 name="name"
                             />
                             <button

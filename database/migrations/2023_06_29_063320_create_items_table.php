@@ -15,13 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('data_id');
             $table->string('name');
-            $table->timestamps();
 
             $table->unsignedBigInteger('user_id');
-
             $table->index('user_id', 'item_user_idx');
-
             $table->foreign('user_id', 'item_user_fk')->on('users')->references('id');
+
+            $table->timestamps();
 
             //$table->softDeletes();
         });
